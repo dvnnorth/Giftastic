@@ -42,9 +42,38 @@ $(function () {
 
     const GIPHYURL = "https://api.giphy.com/v1/gifs/search?api_key=" + GIPHYAPIKEY;
 
-    let animals = [`aardvark`, `bear`, `armadillo`, `superb bird of paradise`];
+    let animals = [`aardvark`, `bear`, `armadillo`, `bird of paradise`];
 
     let cuteMode = false;
+
+    /* Generate button takes arguments value and listOrButton. Value is the search term and button label, 
+       listOrButton is expected to be a string with the value "list" or "button" which determines whether or not
+       the element being generated is for the sidenav or the main button display. Default behavior returns
+       button for the button display */
+       function generateButton(value, listOrButton) {
+
+        let $listItem = $(`<li>`);
+        let $aTag = $(`<a>`);
+
+        $aTag.addClass(`waves-effect waves-light btn-large gifButton`);
+        $aTag.text(value);
+
+        if (cuteMode) {
+            $aTag.addClass(`pink darken-1`);
+        }
+        else {
+            $aTag.addClass(`purple darken-4`);
+        }
+
+        if (typeof listOrButton !== `undefined` && listOrButton === 'list') {
+            $listItem.append($aTag);
+            return $listItem;
+        }
+        else {
+            $aTag.addClass(`mainButton`);
+            return $aTag;
+        }
+    }
 
     // Render buttons
     function renderButtons() {
@@ -63,51 +92,7 @@ $(function () {
 
     }
 
-    function rainbowFollow (event) {
-        $("#rainbowFollower").css({left:event.pageX + 5, top:event.pageY + 5});
-    };
-
-    /* Generate button takes arguments value and listOrButton. Value is the search term and button label, 
-       listOrButton is expected to be a string with the value "list" or "button" which determines whether or not
-       the element being generated is for the sidenav or the main button display. Default behavior returns
-       button for the button display */
-    function generateButton(value, listOrButton) {
-
-        if (typeof listOrButton === `string` && listOrButton.toLowerCase() === 'list') {
-
-            let $listItem = $(`<li>`);
-            let $aTag = $(`<a>`);
-
-            if (cuteMode) {
-                $aTag.addClass(`waves-effect waves-light btn-large pink darken-1 gifButton`);
-            }
-            else {
-                $aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton`);
-            }
-            $aTag.text(value);
-
-            $listItem.append($aTag);
-
-            return $listItem;
-
-        }
-        else {
-
-            let $aTag = $(`<a>`);
-
-            if (cuteMode) {
-                $aTag.addClass(`waves-effect waves-light btn-large pink darken-1 gifButton mainButton`);
-            }
-            else {
-                $aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton mainButton`);
-            }
-            $aTag.text(value);
-
-            return $aTag;
-
-        }
-    }
-
+    // Initial button rendering
     renderButtons();
 
     // On mainSubmit
@@ -141,7 +126,7 @@ $(function () {
         $('#gifDisplay').empty();
 
         let input = $(this).text();
-        
+
         let thisEndpoint = GIPHYURL + "&" + $.param({
             "q": (cuteMode ? ("cute " + input) : input),
             "limit": "10",
@@ -160,11 +145,7 @@ $(function () {
             results.forEach(function (value, index) {
 
                 let $card = $(`<div>`);
-                $card.attr(`class`, `card col s12 m4 offset-m1`);
-
                 let $cardImageDiv = $(`<div>`);
-                $cardImageDiv.attr(`class`, `card-image waves-effect waves-block waves-light`);
-
                 let $image = $(`<img>`);
                 let imageAttributes = {
                     "class": "actualGif",
@@ -172,22 +153,22 @@ $(function () {
                     "data-still": value.images.fixed_width_still.url,
                     "data-animated": value.images.fixed_width.url
                 };
+                let $cardContent = $(`<div>`);
+                let $cardTitle = $(`<span>`);
 
                 for (let key in imageAttributes) {
                     $image.attr(key, imageAttributes[key]);
                 }
 
-                let $cardContent = $(`<div>`)
+                $card.attr(`class`, `card col s12 m4 offset-m1`);
+                $cardImageDiv.attr(`class`, `card-image waves-effect waves-block waves-light`);
                 $cardContent.attr(`class`, `card-content`);
-                let $cardTitle = $(`<span>`);
                 $cardTitle.attr(`class`, `card-title activator grey-text text-darken-4`);
                 $cardTitle.html(`<a href="${value.url}" target="_blank">${value.title}</a><br>Rating: <span class="bold">${value.rating.toUpperCase()}</span>`);
 
                 // Get to appending
                 $cardImageDiv.append($image);
-
                 $cardContent.append($cardTitle);
-
                 $card.append($cardImageDiv);
                 $card.append($cardContent);
 
@@ -213,7 +194,7 @@ $(function () {
     $(document).on(`click`, `.cuteSwitch`, function () {
 
         // Check if checked
-        // if not checked, START CUTE MODE ~~~~~~~!!! K A W A I I  D E S U  N E ~?
+        // if not checked, START CUTE MODE ~~~~~~~!!! K A W A I I  D E S U  N E ~ ?
         if ($(this).prop(`checked`)) {
 
             // ACTIVATE CUTE MODE!
