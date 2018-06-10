@@ -68,3 +68,16 @@ ul > .switch > label {
 .dropdown-content > li > span.highlight {
     color: #000 !important;
 }
+
+#rainbowFollower{
+    position: absolute;
+    z-index: 1000;
+}
+
+.card-title {
+    font-size: 1em !important;
+}
+
+.bold {
+    font-weight: bold !important;
+}

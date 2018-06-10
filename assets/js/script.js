@@ -63,6 +63,10 @@ $(function () {
 
     }
 
+    function rainbowFollow (event) {
+        $("#rainbowFollower").css({left:event.pageX + 5, top:event.pageY + 5});
+    };
+
     /* Generate button takes arguments value and listOrButton. Value is the search term and button label, 
        listOrButton is expected to be a string with the value "list" or "button" which determines whether or not
        the element being generated is for the sidenav or the main button display. Default behavior returns
@@ -74,7 +78,12 @@ $(function () {
             let $listItem = $(`<li>`);
             let $aTag = $(`<a>`);
 
-            $aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton`);
+            if (cuteMode) {
+                $aTag.addClass(`waves-effect waves-light btn-large pink darken-1 gifButton`);
+            }
+            else {
+                $aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton`);
+            }
             $aTag.text(value);
 
             $listItem.append($aTag);
@@ -86,7 +95,12 @@ $(function () {
 
             let $aTag = $(`<a>`);
 
-            $aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton mainButton`);
+            if (cuteMode) {
+                $aTag.addClass(`waves-effect waves-light btn-large pink darken-1 gifButton mainButton`);
+            }
+            else {
+                $aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton mainButton`);
+            }
             $aTag.text(value);
 
             return $aTag;
@@ -100,25 +114,21 @@ $(function () {
     $(`#mainSubmit,#sideSubmit`).on(`click`, function () {
         if ($(this).attr(`id`) === `mainSubmit`) {
             let value = $(`#autocomplete-input-main`).val().trim().toLowerCase();
-            console.log(value);
             if (value === "" || animals.includes(value)) {
                 $(`#mainSubmit`).effect(`shake`);
             }
             else {
                 animals.push(value);
-                console.log(animals);
             }
             $(`#autocomplete-input-main`).val(``);
         }
         else {
             let value = $(`#autocomplete-input-side`).val().trim().toLowerCase();
-            console.log(value);
             if (value === "" || animals.includes(value)) {
                 $(`#sideSubmit`).effect(`shake`);
             }
             else {
                 animals.push(value);
-                console.log(animals);
             }
             $(`#autocomplete-input-side`).val(``);
         }
@@ -131,12 +141,12 @@ $(function () {
         $('#gifDisplay').empty();
 
         let input = $(this).text();
-        console.log(input);
+        
         let thisEndpoint = GIPHYURL + "&" + $.param({
             "q": (cuteMode ? ("cute " + input) : input),
             "limit": "10",
             "offset": "0",
-            "rating": "G",
+            "rating": "g",
             "lang": "en"
         });
 
@@ -146,30 +156,8 @@ $(function () {
         }).done(function (response) {
 
             let results = response.data;
-            console.log(results);
 
             results.forEach(function (value, index) {
-
-                // This is what you're creating
-                `<div class="card col s12 m4 offset-m1">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="https://placeimg.com/200/200/any">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Card Title
-                            <i class="material-icons right">more_vert</i>
-                        </span>
-                        <p>
-                            <a href="#">This is a link</a>
-                        </p>
-                    </div>
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Card Title
-                            <i class="material-icons right">close</i>
-                        </span>
-                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                    </div>
-                </div>`
 
                 let $card = $(`<div>`);
                 $card.attr(`class`, `card col s12 m4 offset-m1`);
@@ -179,7 +167,7 @@ $(function () {
 
                 let $image = $(`<img>`);
                 let imageAttributes = {
-                    "id": "gif" + index,
+                    "class": "actualGif",
                     "src": value.images.fixed_width_still.url,
                     "data-still": value.images.fixed_width_still.url,
                     "data-animated": value.images.fixed_width.url
@@ -187,88 +175,36 @@ $(function () {
 
                 for (let key in imageAttributes) {
                     $image.attr(key, imageAttributes[key]);
-                    console.log($image.attr(key), key);
                 }
 
                 let $cardContent = $(`<div>`)
                 $cardContent.attr(`class`, `card-content`);
                 let $cardTitle = $(`<span>`);
                 $cardTitle.attr(`class`, `card-title activator grey-text text-darken-4`);
-                $cardTitle.html(`<a href="${value.url}">${value.title}</a>`);
-                let $moreVert = $(`<i>`);
-                $moreVert.attr(`class`, `material-icons right`);
-                $moreVert.text(`more_vert`);
-
-                let $cardReveal = $(`<div>`);
-                $cardReveal.attr(`class`, `card-reveal`);
-                let $cardTitleReveal = $(`<span>`);
-                $cardTitleReveal.attr(`class`, `card-title grey-text text-darken-4`);
-                $cardTitleReveal.html(`<a href="${value.url}">${value.title}</a>`);
-                $close = $(`<i>`);
-                $close.attr(`class`, `material-icons right`);
-                $close.text(`close`);
-                $pInvisible = $(`<p>`);
-                $pInvisible.text("Here's some information that is hidden until clicked upon");
+                $cardTitle.html(`<a href="${value.url}" target="_blank">${value.title}</a><br>Rating: <span class="bold">${value.rating.toUpperCase()}</span>`);
 
                 // Get to appending
                 $cardImageDiv.append($image);
 
-                $cardTitle.append($moreVert);
                 $cardContent.append($cardTitle);
-
-                $cardTitleReveal.append($close);
-                $cardReveal.append($cardTitleReveal);
-                $cardReveal.append($pInvisible);
 
                 $card.append($cardImageDiv);
                 $card.append($cardContent);
-                $card.append($cardReveal);
-
-                console.log($card);
 
                 $(`#gifDisplay`).append($card);
 
-                /*let p = $('<p>');
-
-                let rating = results[i].rating.toUpperCase();
-
-                if (rating == '') {
-                    p.text("Not rated");
-                }
-                else {
-                    p.text("Rated " + rating);
-                }
-
-                let gifImg = $('<img>');
-                gifImg.addClass('gifImg')
-                gifImg.attr('src', results[i].images.fixed_height_small_still.url);
-                gifImg.attr('data-still', results[i].images.fixed_height_small_still.url);
-                gifImg.attr('data-active', results[i].images.fixed_height_small.url);
-
-                gifDiv.append(p);
-                gifDiv.append(gifImg);
-
-                $('#gifHolder').prepend(gifDiv);*/
-
-            });
-
-            $('img').on('click', function (e) {
-
-                console.log(e);
-
-                let current = $(this).attr('src');
-                let active = e.currentTarget.dataset.active;
-                let still = e.currentTarget.dataset.still;
-
-                if (current == still) {
-                    $(this).attr('src', active);
-                    current = active;
-                } else {
-                    $(this).attr('src', still);
-                    current = still;
-                }
             });
         });
+    });
+
+    // Click listener to make images animate
+    $(document).on(`click`, `.actualGif`, function () {
+        if ($(this).attr(`src`) === $(this).data(`still`)) {
+            $(this).attr(`src`, $(this).data(`animated`));
+        }
+        else {
+            $(this).attr(`src`, $(this).data(`still`));
+        }
     });
 
     // Click listener for the Cute Mode switch. On click of cute mode switch, the color scheme changes, music plays, and every search has "cute"
@@ -308,6 +244,9 @@ $(function () {
             // Play cute music
             document.getElementById(`cuteMusic`).play();
 
+            $(`#rainbowFollower`).removeClass(`hide`);
+            $(document).on(`mousemove`, rainbowFollow);
+
         }
         // Else deactivate cute mode... ( ^, _ ,^)
         else {
@@ -338,6 +277,9 @@ $(function () {
 
             // Stop cute music
             document.getElementById(`cuteMusic`).pause();
+
+            $(`#rainbowFollower`).addClass(`hide`);
+            $(document).off(`mousemove`, rainbowFollow);
 
         }
 
