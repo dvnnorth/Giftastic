@@ -4,6 +4,8 @@ $(function() {
     const AUTOCOMPLETE = $(`#autocomplete-input`);
     const GIPHYAPIKEY = `KC8KiUIfj4EKXy0nBNAyXEfDpeKW01BX`;
 
+    let animals = [`aardvark`, `tapir`, `armadillo`, `superb bird of paradise`];
+
     // Initialize sidenav - Materialize
     // No options
     M.Sidenav.init(SIDENAV, {});
@@ -29,5 +31,7 @@ $(function() {
             data: wordPairs
         })
     });
+
+    // Render buttons
 
 });

@@ -22,3 +22,23 @@
     width: 90% !important;
     border: #f4f4f4 3px solid !important;
 }
+
+.switch label input[type=checkbox]:checked+.lever {
+    background-color: rgb(255, 0, 255);
+}
+
+.switch label input[type=checkbox]:checked+.lever:after {
+    background-color: rgb(190, 0, 190);
+}
+
+.switch > label {
+    color: rgb(255, 255, 255) !important;
+}
+
+ul > .switch > label {
+    color: rgb(0, 0, 0) !important;
+}
+
+.cuteSwitch {
+    margin: 0 0 0 20px;
+}
