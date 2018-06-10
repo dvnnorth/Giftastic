@@ -1,11 +1,11 @@
 // Run ASAP to init Materialze components and load audio
-const SIDENAV = $(`.sidenav`);
-const AUTOCOMPLETESIDE = $(`#autocomplete-input-side`);
-const AUTOCOMPLETEMAIN = $(`#autocomplete-input-main`);
+const $SIDENAV = $(`.sidenav`);
+const $AUTOCOMPLETESIDE = $(`#autocomplete-input-side`);
+const $AUTOCOMPLETEMAIN = $(`#autocomplete-input-main`);
 
 // Initialize sidenav - Materialize
 // No options
-M.Sidenav.init(SIDENAV, {});
+M.Sidenav.init($SIDENAV, {});
 
 // Initialize autocomplete - Materialize
 // Creating with animal list from GitHub user boennemann
@@ -24,11 +24,11 @@ $.ajax({
         wordPairs[value] = null;
     });
 
-    M.Autocomplete.init(AUTOCOMPLETESIDE, {
+    M.Autocomplete.init($AUTOCOMPLETESIDE, {
         data: wordPairs
     });
 
-    M.Autocomplete.init(AUTOCOMPLETEMAIN, {
+    M.Autocomplete.init($AUTOCOMPLETEMAIN, {
         data: wordPairs
     });
 });
@@ -39,6 +39,8 @@ document.getElementById(`cuteMusic`).load();
 $(function () {
 
     const GIPHYAPIKEY = `KC8KiUIfj4EKXy0nBNAyXEfDpeKW01BX`;
+
+    const GIPHYURL = "https://api.giphy.com/v1/gifs/search?api_key=" + GIPHYAPIKEY;
 
     let animals = [`aardvark`, `tapir`, `armadillo`, `superb bird of paradise`];
 
@@ -69,25 +71,25 @@ $(function () {
 
         if (typeof listOrButton === `string` && listOrButton.toLowerCase() === 'list') {
 
-            let listItem = $(`<li>`);
-            let aTag = $(`<a>`);
+            let $listItem = $(`<li>`);
+            let $aTag = $(`<a>`);
 
-            aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton`);
-            aTag.text(value);
+            $aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton`);
+            $aTag.text(value);
 
-            listItem.append(aTag);
+            $listItem.append($aTag);
 
-            return listItem;
+            return $listItem;
 
         }
         else {
 
-            let aTag = $(`<a>`);
+            let $aTag = $(`<a>`);
 
-            aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton mainButton`);
-            aTag.text(value);
+            $aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton mainButton`);
+            $aTag.text(value);
 
-            return aTag;
+            return $aTag;
 
         }
     }
@@ -126,6 +128,147 @@ $(function () {
     // On .gifButton click listener
     $(document).on(`click`, `.gifButton`, function () {
 
+        $('#gifDisplay').empty();
+
+        let input = $(this).text();
+        console.log(input);
+        let thisEndpoint = GIPHYURL + "&" + $.param({
+            "q": (cuteMode ? ("cute " + input) : input),
+            "limit": "10",
+            "offset": "0",
+            "rating": "G",
+            "lang": "en"
+        });
+
+        $.ajax({
+            url: thisEndpoint,
+            method: "GET"
+        }).done(function (response) {
+
+            let results = response.data;
+            console.log(results);
+
+            results.forEach(function (value, index) {
+
+                // This is what you're creating
+                `<div class="card col s12 m4 offset-m1">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator" src="https://placeimg.com/200/200/any">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">Card Title
+                            <i class="material-icons right">more_vert</i>
+                        </span>
+                        <p>
+                            <a href="#">This is a link</a>
+                        </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">Card Title
+                            <i class="material-icons right">close</i>
+                        </span>
+                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                    </div>
+                </div>`
+
+                let $card = $(`<div>`);
+                $card.attr(`class`, `card col s12 m4 offset-m1`);
+
+                let $cardImageDiv = $(`<div>`);
+                $cardImageDiv.attr(`class`, `card-image waves-effect waves-block waves-light`);
+
+                let $image = $(`<img>`);
+                let imageAttributes = {
+                    "id": "gif" + index,
+                    "src": value.images.fixed_width_still.url,
+                    "data-still": value.images.fixed_width_still.url,
+                    "data-animated": value.images.fixed_width.url
+                };
+
+                for (let key in imageAttributes) {
+                    $image.attr(key, imageAttributes[key]);
+                    console.log($image.attr(key), key);
+                }
+
+                let $cardContent = $(`<div>`)
+                $cardContent.attr(`class`, `card-content`);
+                let $cardTitle = $(`<span>`);
+                $cardTitle.attr(`class`, `card-title activator grey-text text-darken-4`);
+                $cardTitle.html(`<a href="${value.url}">${value.title}</a>`);
+                let $moreVert = $(`<i>`);
+                $moreVert.attr(`class`, `material-icons right`);
+                $moreVert.text(`more_vert`);
+
+                let $cardReveal = $(`<div>`);
+                $cardReveal.attr(`class`, `card-reveal`);
+                let $cardTitleReveal = $(`<span>`);
+                $cardTitleReveal.attr(`class`, `card-title grey-text text-darken-4`);
+                $cardTitleReveal.html(`<a href="${value.url}">${value.title}</a>`);
+                $close = $(`<i>`);
+                $close.attr(`class`, `material-icons right`);
+                $close.text(`close`);
+                $pInvisible = $(`<p>`);
+                $pInvisible.text("Here's some information that is hidden until clicked upon");
+
+                // Get to appending
+                $cardImageDiv.append($image);
+
+                $cardTitle.append($moreVert);
+                $cardContent.append($cardTitle);
+
+                $cardTitleReveal.append($close);
+                $cardReveal.append($cardTitleReveal);
+                $cardReveal.append($pInvisible);
+
+                $card.append($cardImageDiv);
+                $card.append($cardContent);
+                $card.append($cardReveal);
+
+                console.log($card);
+
+                $(`#gifDisplay`).append($card);
+
+                /*let p = $('<p>');
+
+                let rating = results[i].rating.toUpperCase();
+
+                if (rating == '') {
+                    p.text("Not rated");
+                }
+                else {
+                    p.text("Rated " + rating);
+                }
+
+                let gifImg = $('<img>');
+                gifImg.addClass('gifImg')
+                gifImg.attr('src', results[i].images.fixed_height_small_still.url);
+                gifImg.attr('data-still', results[i].images.fixed_height_small_still.url);
+                gifImg.attr('data-active', results[i].images.fixed_height_small.url);
+
+                gifDiv.append(p);
+                gifDiv.append(gifImg);
+
+                $('#gifHolder').prepend(gifDiv);*/
+
+            });
+
+            $('img').on('click', function (e) {
+
+                console.log(e);
+
+                let current = $(this).attr('src');
+                let active = e.currentTarget.dataset.active;
+                let still = e.currentTarget.dataset.still;
+
+                if (current == still) {
+                    $(this).attr('src', active);
+                    current = active;
+                } else {
+                    $(this).attr('src', still);
+                    current = still;
+                }
+            });
+        });
     });
 
     // Click listener for the Cute Mode switch. On click of cute mode switch, the color scheme changes, music plays, and every search has "cute"
