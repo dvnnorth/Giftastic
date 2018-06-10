@@ -39,6 +39,14 @@ ul > .switch > label {
     color: rgb(0, 0, 0) !important;
 }
 
-.cuteSwitch {
+#cuteSwitchSide {
     margin: 0 0 0 20px;
+}
+
+#mobile-tags {
+    padding: 10px;
+}
+
+.mainButton {
+    margin-right: 3px;
 }

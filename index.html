@@ -58,24 +58,15 @@
     <!-- Have to initialize sidenav in your JS -->
     <ul class="sidenav" id="mobile-tags">
 
-        <li>
-            <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
+        <li class="input-field">
+
+            <input type="text" class="white black-text autocomplete" id="autocomplete-input-side" placeholder="Three-toed sloth">
+            <button class="btn waves-effect waves-light purple darken-4" type="submit" name="action" id="sideSubmit">Submit</button>
+
         </li>
 
         <li>
-            <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-        </li>
-
-        <li>
-            <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-        </li>
-
-        <li>
-            <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-        </li>
-
-        <li>
-            <div class="switch cuteSwitch">
+            <div class="switch" id="cuteSwitchSide">
                 Cute Mode&nbsp;&nbsp;
                 <label>
                     Off
@@ -96,14 +87,6 @@
 
             <div id="tags-content" class="col s12">
 
-                <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-                <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-                <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-                <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-                <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-                <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-                <a class="waves-effect waves-light btn-large purple darken-4 tag">Button</a>
-
             </div>
 
         </div>
@@ -113,77 +96,20 @@
 
             <div class="row">
 
-                <div class="col s12 m12 l9" id="gif-display">
+                <div class="col s12 m12 l9">
 
+                    <div class="row" id="gifDisplay">
 
-                    <div class="row">
-                        <div class="card col s12 m4 offset-m1">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <img class="activator" src="https://placeimg.com/200/200/any">
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">Card Title
-                                    <i class="material-icons right">more_vert</i>
-                                </span>
-                                <p>
-                                    <a href="#">This is a link</a>
-                                </p>
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Card Title
-                                    <i class="material-icons right">close</i>
-                                </span>
-                                <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                            </div>
-                        </div>
-
-                        <div class="card col s12 m4 offset-m1">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <img class="activator" src="https://placeimg.com/200/200/any">
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">Card Title
-                                    <i class="material-icons right">more_vert</i>
-                                </span>
-                                <p>
-                                    <a href="#">This is a link</a>
-                                </p>
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Card Title
-                                    <i class="material-icons right">close</i>
-                                </span>
-                                <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                            </div>
-                        </div>
-
-                        <div class="card col s12 m4 offset-m1">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <img class="activator" src="https://placeimg.com/200/200/any">
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">Card Title
-                                    <i class="material-icons right">more_vert</i>
-                                </span>
-                                <p>
-                                    <a href="#">This is a link</a>
-                                </p>
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Card Title
-                                    <i class="material-icons right">close</i>
-                                </span>
-                                <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                            </div>
-                        </div>
                     </div>
+
                 </div>
 
                 <div class="col s3 hide-on-med-and-down" id="input-area">
 
                     <div class="input-field">
 
-                        <input type="text" class="white black-text autocomplete" id="autocomplete-input" placeholder="Three-toed sloth">
+                        <input type="text" class="white black-text autocomplete" id="autocomplete-input-main" placeholder="Three-toed sloth">
+                        <button class="btn waves-effect waves-light purple darken-4" type="submit" name="action" id="mainSubmit">Submit</button>
 
                     </div>
 
