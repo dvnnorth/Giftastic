@@ -42,15 +42,14 @@ $(function () {
 
     let animals = [`aardvark`, `tapir`, `armadillo`, `superb bird of paradise`];
 
+    let cuteMode = false;
+
     // Render buttons
     function renderButtons() {
         // Buttons should appear in #mobileTags (as an li) and tagsContent (as a button)
 
-        // Store the cute switch
-        let cuteItem = $(`#cuteItem`);
-
         // Clear all of the buttons
-        $(`.gif-button`).remove();
+        $(`.gifButton`).remove();
 
         // Populate buttons
         animals.forEach(function (value, index) {
@@ -73,7 +72,7 @@ $(function () {
             let listItem = $(`<li>`);
             let aTag = $(`<a>`);
 
-            aTag.addClass(`waves-effect waves-light btn-large purple darken-4`);
+            aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton`);
             aTag.text(value);
 
             listItem.append(aTag);
@@ -85,7 +84,7 @@ $(function () {
 
             let aTag = $(`<a>`);
 
-            aTag.addClass(`waves-effect waves-light btn-large purple darken-4 mainButton`);
+            aTag.addClass(`waves-effect waves-light btn-large purple darken-4 gifButton mainButton`);
             aTag.text(value);
 
             return aTag;
@@ -95,6 +94,40 @@ $(function () {
 
     renderButtons();
 
+    // On mainSubmit
+    $(`#mainSubmit,#sideSubmit`).on(`click`, function () {
+        if ($(this).attr(`id`) === `mainSubmit`) {
+            let value = $(`#autocomplete-input-main`).val().trim().toLowerCase();
+            console.log(value);
+            if (value === "" || animals.includes(value)) {
+                $(`#mainSubmit`).effect(`shake`);
+            }
+            else {
+                animals.push(value);
+                console.log(animals);
+            }
+            $(`#autocomplete-input-main`).val(``);
+        }
+        else {
+            let value = $(`#autocomplete-input-side`).val().trim().toLowerCase();
+            console.log(value);
+            if (value === "" || animals.includes(value)) {
+                $(`#sideSubmit`).effect(`shake`);
+            }
+            else {
+                animals.push(value);
+                console.log(animals);
+            }
+            $(`#autocomplete-input-side`).val(``);
+        }
+        renderButtons();
+    });
+
+    // On .gifButton click listener
+    $(document).on(`click`, `.gifButton`, function () {
+
+    });
+
     // Click listener for the Cute Mode switch. On click of cute mode switch, the color scheme changes, music plays, and every search has "cute"
     // appended to front
 
@@ -103,6 +136,9 @@ $(function () {
         // Check if checked
         // if not checked, START CUTE MODE ~~~~~~~!!! K A W A I I  D E S U  N E ~?
         if ($(this).prop(`checked`)) {
+
+            // ACTIVATE CUTE MODE!
+            cuteMode = true;
 
             // Make sure both switches are flipped
             $(`.cuteSwitch`).each(function () {
@@ -132,6 +168,8 @@ $(function () {
         }
         // Else deactivate cute mode... ( ^, _ ,^)
         else {
+
+            cuteMode = false;
 
             // Make sure both switches are flipped
             $(`.cuteSwitch`).each(function () {

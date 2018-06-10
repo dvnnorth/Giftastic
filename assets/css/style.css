@@ -48,7 +48,7 @@ ul > .switch > label {
 }
 
 .mainButton {
-    margin-right: 3px;
+    margin: 3px 3px 0 0;
 }
 
  /* label focus color */
