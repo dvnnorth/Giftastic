@@ -42,7 +42,7 @@ $(function () {
 
     const GIPHYURL = "https://api.giphy.com/v1/gifs/search?api_key=" + GIPHYAPIKEY;
 
-    let animals = [`aardvark`, `tapir`, `armadillo`, `superb bird of paradise`];
+    let animals = [`aardvark`, `bear`, `armadillo`, `superb bird of paradise`];
 
     let cuteMode = false;
 
@@ -244,9 +244,6 @@ $(function () {
             // Play cute music
             document.getElementById(`cuteMusic`).play();
 
-            $(`#rainbowFollower`).removeClass(`hide`);
-            $(document).on(`mousemove`, rainbowFollow);
-
         }
         // Else deactivate cute mode... ( ^, _ ,^)
         else {
@@ -277,9 +274,6 @@ $(function () {
 
             // Stop cute music
             document.getElementById(`cuteMusic`).pause();
-
-            $(`#rainbowFollower`).addClass(`hide`);
-            $(document).off(`mousemove`, rainbowFollow);
 
         }
 
