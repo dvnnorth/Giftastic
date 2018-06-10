@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <!--Sakura CSS c/o https://github.com/almightynay/jQuery-Sakura-->
+    <link rel="stylesheet" href="assets/css/jquery-sakura.min.css">
     <!--Additional Styling-->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -33,7 +35,7 @@
                             Cute Mode&nbsp;&nbsp;
                             <label>
                                 Off
-                                <input type="checkbox">
+                                <input type="checkbox" class="cuteSwitch">
                                 <span class="lever"></span>
                                 On
                             </label>
@@ -70,7 +72,7 @@
                 Cute Mode&nbsp;&nbsp;
                 <label>
                     Off
-                    <input type="checkbox">
+                    <input type="checkbox" class="cuteSwitch">
                     <span class="lever"></span>
                     On
                 </label>
@@ -121,6 +123,8 @@
 
     </section>
 
+    <audio id="cuteMusic" src="assets/audio/ponponpon.mp3"></audio>
+
     <!-- Scripts -->
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -128,6 +132,9 @@
 
     <!-- Compiled and minified JavaScript for Materialize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+    <!--Sakura CSS c/o https://github.com/almightynay/jQuery-Sakura-->
+    <script src="assets/js/jquery-sakura.min.js"></script>
 
     <!--Additional scripting-->
     <script src="./assets/js/script.js"></script>

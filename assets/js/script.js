@@ -1,4 +1,4 @@
-// Run ASAP to init Materialze components
+// Run ASAP to init Materialze components and load audio
 const SIDENAV = $(`.sidenav`);
 const AUTOCOMPLETESIDE = $(`#autocomplete-input-side`);
 const AUTOCOMPLETEMAIN = $(`#autocomplete-input-main`);
@@ -32,6 +32,8 @@ $.ajax({
         data: wordPairs
     });
 });
+
+document.getElementById(`cuteMusic`).load();
 
 // On Document Ready
 $(function () {
@@ -92,5 +94,72 @@ $(function () {
     }
 
     renderButtons();
+
+    // Click listener for the Cute Mode switch. On click of cute mode switch, the color scheme changes, music plays, and every search has "cute"
+    // appended to front
+
+    $(document).on(`click`, `.cuteSwitch`, function () {
+
+        // Check if checked
+        // if not checked, START CUTE MODE ~~~~~~~!!! K A W A I I  D E S U  N E ~?
+        if ($(this).prop(`checked`)) {
+
+            // Make sure both switches are flipped
+            $(`.cuteSwitch`).each(function () {
+                $(this).prop(`checked`, true);
+            });
+
+            // Change color scheme
+            $(`.purple`).each(function () {
+                $(this).removeClass(`purple`);
+                $(this).addClass(`pink`);
+                if ($(this).hasClass(`darken-2`)) {
+                    $(this).removeClass(`darken-2`);
+                    $(this).addClass(`darkenPlaceholder`);
+                }
+                else {
+                    $(this).removeClass(`darken-4`);
+                    $(this).addClass(`darken-1`);
+                }
+            });
+
+            // Start sakura blossoms falling
+            $(`body`).sakura();
+
+            // Play cute music
+            document.getElementById(`cuteMusic`).play();
+
+        }
+        // Else deactivate cute mode... ( ^, _ ,^)
+        else {
+
+            // Make sure both switches are flipped
+            $(`.cuteSwitch`).each(function () {
+                $(this).prop(`checked`, false);
+            });
+
+            // Change color scheme back
+            $(`.pink`).each(function () {
+                $(this).removeClass(`pink`);
+                $(this).addClass(`purple`);
+                if ($(this).hasClass(`darkenPlaceholder`)) {
+                    $(this).removeClass(`darkenPlaceholder`);
+                    $(this).addClass(`darken-2`);
+                }
+                else {
+                    $(this).removeClass(`darken-1`);
+                    $(this).addClass(`darken-4`);
+                }
+            });
+
+            // Stop sakura blossoms falling
+            $(`body`).sakura(`stop`);
+
+            // Stop cute music
+            document.getElementById(`cuteMusic`).pause();
+
+        }
+
+    });
 
 });
